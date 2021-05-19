@@ -1,0 +1,86 @@
+# Tabla de multiplicar MySQL:
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Tabla_Multiplicacion`(IN Numero INT, OUT Tabla VARCHAR(200))
+BEGIN
+
+  #Declaro las variables
+  DECLARE contador INT DEFAULT 0;
+  DECLARE auxiliar INT DEFAULT 11;
+  DECLARE resultado INT;
+  
+    WHILE contador < auxiliar DO
+      SET resultado = Numero * contador;
+      SET resultado = CONCAT(tabla, Numero, 'x', contador, ' ', '=', resultado);
+      SET contador = contador + 1; #Actualizo + 1 al contador para la siguiente multiplicación
+  END WHILE;
+ END
+ 
+ 
+ #Introducir una cadena y el resultado que sea la cadena inversa:
+ 
+ CREATE DEFINER=`root`@`localhost` PROCEDURE `Cadena_Inversa`(IN Cadena VARCHAR(200), OUT cadena_alreves VARCHAR(200))
+BEGIN
+
+  DECLARE contador INT DEFAULT 1;
+  DECLARE auxiliar VARCHAR(200);
+  DECLARE tamaño VARCHAR(200);
+  DECLARE resultado VARCHAR(200);
+  
+  SET auxiliar = LENGTH(Cadena); # Doy el valor de la longitud de la cadena a la variable auxiliar
+  
+  WHILE contador <=tamaño DO
+    SET resultado = SUBSTR(Cadena, contador, 1);
+    SET cadena_alreves = CONCAT(resultado, cadena_alreves);
+    SET contador = contador + 1;
+  END WHILE;
+  
+  
+  
+  # Procedimiento que reciba una fecha y te devuelva únicamente el año:
+  
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Año_Numero`(IN año DATE, OUT resultado CHAR(4))
+BEGIN
+
+	  DECLARE contador INT DEFAULT 0;
+    DECLARE aux_año CHAR(4);
+    
+     BUCLE: WHILE año > contador DO
+		SET resultado = SUBSTR(año, 1, 4);
+        SET contador = contador + 1;
+	IF contador = 4 THEN
+		LEAVE BUCLE;
+	END IF;
+    END WHILE;
+
+END
+
+
+
+# Función calculadora
+
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `Calculadora`(Operacion VARCHAR(200), Numero_X VARCHAR(200), Numero_Y VARCHAR(200)) RETURNS int
+    DETERMINISTIC
+BEGIN
+
+	  DECLARE resultado VARCHAR(200);
+  	
+    #Declaración de un error al utilizar un operando distinto:
+    IF Operacion != '+' AND Operacion != '-' AND Operacion != '*' AND Operacion != '/' THEN 
+		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Operación no permitida, es distinto de *, /, +, -';
+    END IF;
+    
+	IF Operacion = '+' THEN
+		SET resultado = Numero_X + Numero_Y;
+	ELSEIF Operacion = '-' THEN
+		SET resultado = Numero_X - Numero_Y;
+	ELSEIF Operacion = '*' THEN
+		SET resultado = Numero_X * Numero_Y;
+	ELSEIF Operacion = '/' THEN
+		SET resultado = Numero_X / Numero_Y;
+	END IF;
+	
+    
+RETURN resultado;
+END 
+ 
